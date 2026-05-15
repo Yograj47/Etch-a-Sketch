@@ -1,42 +1,99 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SketchPad</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@jaames/iro@5"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  </head>
+  <body>
+    <header class="header">
+      <h1>SketchPad</h1>
+      <div class="mode">Color</div>
+    </header>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Etch-a-Sketch</title>
-    <link rel="stylesheet" href="style.css">
-</head>
+    <main class="main">
+      <nav class="controls-bar">
+        <div class="button-grid">
+        <button onclick="changeColor('#fff')">Stroke</button>
+          <button onclick="changeColor('#000')">Black</button>
+          <button onclick="changeColor('grey')">Grey</button>
+          <button onclick="changeColor('random')">Random</button>
+          <button onclick="changeColor('#fff')">
+            <i data-lucide="eraser"></i>
+          </button>
+        </div>
 
-<body>
-    <div class="flex-container">
-        <div class="title">
-            <h1>SketchPad</h1>
-            <p class="mode">Color</p>
+        <div class="tool-group">
+          <button id="color-popup-btn" class="popup-trigger">
+            <span id="color-box"></span>
+            Pick Color
+          </button>
+
+          <div class="size-input">
+            <input type="number" id="size" placeholder="16" />
+            <button id="set-size">Set</button>
+          </div>
+
+          <button id="reset-btn" class="reset" onclick="resetBoard()">
+            Reset
+          </button>
         </div>
-        <div class="content">
-            <div class="board"></div>
-            <div class="buttons">
-                <button onclick="changeColor('#000')">Black</button>
-                <button onclick="changeColor('grey')">Grey</button>
-                <button onclick="changeColor('random')">Random</button>
-                <button onclick="changeColor('#fff')">Eraser</button>
-                <button onclick="reset()">Reset</button>
-            </div>
-            <div class="input">
-                <input type="number" name="size" id="size">
-                <button id="set-size">Set Size</button>
-            </div>
+      </nav>
+
+      <section class="board-container">
+        <div class="board"></div>
+      </section>
+
+      <div class="picker-container hidden">
+        <div class="popup-content">
+          <button id="close-picker">&times;</button>
+
+          <div id="picker"></div>
+
+          <div class="popup-footer">
+            <p>Select a Color</p>
+          </div>
         </div>
-    </div>
-    <div class="github-link">
-        <a style="color: #4d4d4d;" href="https://github.com/Hemanta47/Etch-a-Sketch.git">
-            Etch-a-Sketch
-            <i class="fa-brands fa-github"></i>
-        </a>
-    </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <a href="https://github.com/Yograj47/Etch-a-Sketch" target="_blank"
+        >Etch-a-Sketch GitHub</a
+      >
+    </footer>
+
     <script src="main.js"></script>
-    <script src="https://kit.fontawesome.com/a63c128ded.js" crossorigin="anonymous"></script>
-</body>
+    <script>
+      // --- INITIALIZE ICONS ---
+      lucide.createIcons();
 
+      // --- COLOR PICKER LOGIC ---
+      var colorPicker = new iro.ColorPicker("#picker", {
+        width: 200,
+        color: "#f00",
+        border: "1px solid #fff",
+      });
+
+      // Update color box and current color on change
+      const openColorPicker = () => {
+        document.querySelector(".picker-container").classList.remove("hidden");
+      };
+
+      const closeColorPicker = () => {
+        document.querySelector(".picker-container").classList.add("hidden");
+      };
+
+      document
+        .getElementById("color-popup-btn")
+        .addEventListener("click", openColorPicker);
+      document
+        .getElementById("close-picker")
+        .addEventListener("click", closeColorPicker);
+    </script>
+  </body>
 </html>
