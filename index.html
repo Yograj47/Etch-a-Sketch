@@ -18,9 +18,14 @@
     <main class="main">
       <nav class="controls-bar">
         <div class="button-grid">
-        <button onclick="changeColor('#fff')">Stroke</button>
-          <button onclick="changeColor('#000')">Black</button>
-          <button onclick="changeColor('grey')">Grey</button>
+          <button
+            id="draw-btn"
+            onclick="changeColor(currentColor)"
+            class="active"
+          >
+            <i data-lucide="square"></i>
+            Draw
+          </button>
           <button onclick="changeColor('random')">Random</button>
           <button onclick="changeColor('#fff')">
             <i data-lucide="eraser"></i>
@@ -72,11 +77,31 @@
       // --- INITIALIZE ICONS ---
       lucide.createIcons();
 
+      // --- Toggle Active Button ---
+      const buttons = document.querySelectorAll(".button-grid button");
+      const activeButton = buttons[0];
+      buttons.forEach((button) => {
+        button.addEventListener("click", () => {
+          activeButton.classList.remove("active");
+          button.classList.add("active");
+        });
+      });
+
       // --- COLOR PICKER LOGIC ---
       var colorPicker = new iro.ColorPicker("#picker", {
         width: 200,
         color: "#f00",
         border: "1px solid #fff",
+      });
+
+      var currentColor = colorPicker.color.hexString;
+
+      colorPicker.on("color:change", function (color) {
+        changeColor(color.hexString);
+        currentColor = color.hexString;
+        document.getElementById("draw-btn").style.color = color.hexString;
+        document.getElementById("color-box").style.backgroundColor =
+          color.hexString;
       });
 
       // Update color box and current color on change
