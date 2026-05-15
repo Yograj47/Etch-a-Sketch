@@ -76,5 +76,5 @@ function setupListeners() {
         sizeInput.value = 0
     });
 
-    document.querySelector('.buttons button:last-child').addEventListener('click', resetBoard);
+    document.querySelector('#reset-btn').addEventListener('click', resetBoard);
 }
